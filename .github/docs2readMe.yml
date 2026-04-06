@@ -1,0 +1,45 @@
+# Note: need to give CI permissions or else it cant write to ReadME
+#  Settings -> Workflow permissions -> Read and Write
+
+# Need ID to google docs + make google docs editable
+#  when linking google docs make sure this is at end of link: export?format=docx
+
+
+name: Sync README from Google Docs
+
+on:
+  push:
+    branches:
+    - main
+  # schedule:
+    # - cron: "0 0 * * *"  # every hour
+  workflow_dispatch:     # manual trigger button
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install Pandoc
+        run: sudo apt-get install -y pandoc
+
+      - name: Download Google Doc
+        run: |
+          curl -L "https://docs.google.com/document/d/19Z-F2WiKFrBjV9tquQqSN_utwX2Rrgt57--4UwpNle4/export?format=docx" -o doc.docx
+          
+      # html = formats it using html
+      # media-assets = show images
+      - name: Convert to README.md
+        run: |
+          pandoc doc.docx -t html --extract-media=assets -o README.md
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update README from Google Docs"
+          git push
