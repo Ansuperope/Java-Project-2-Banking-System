@@ -7,7 +7,7 @@ MAIN = project.Main
 SOURCES = $(shell find $(SRC_DIR) -name "*.java")
 CLASSES = $(SOURCES:.java=.class)
 
-.PHONY: all run clean docs
+.PHONY: all run clean docs save zip
 
 
 all:
@@ -28,3 +28,8 @@ docs:
 # save progress, git commands
 save:
 	git add .
+
+# make zip file
+zip:
+	rm -f cs4a-project2.zip
+	find . -type f \( -name "*.java" -o -name "*.h" \) | zip -@ cs4a-project2.zip
