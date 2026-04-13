@@ -34,10 +34,19 @@ jobs:
           curl -L "https://docs.google.com/document/d/19Z-F2WiKFrBjV9tquQqSN_utwX2Rrgt57--4UwpNle4/export?format=docx" -o doc.docx
           
       # html = formats it using html
+      # gfm = github-flavored markdown 
       # media-assets = show images
       - name: Convert to README.md
         run: |
-          pandoc doc.docx -t html --extract-media=assets -o README.md
+          pandoc doc.docx -t gfm --extract-media=assets -o README.md
+
+      - name: Add badges to top
+        run: |
+          echo '[![Java CI](https://github.com/Ansuperope/Java-Project-2-Banking-System/actions/workflows/java.yml/badge.svg)](https://github.com/Ansuperope/Java-Project-2-Banking-System/actions/workflows/java.yml)' > temp.md
+          echo '[![Documentation](https://img.shields.io/badge/Documentation-Doxygen-blue?logo=doxygen)](https://ansuperope.github.io/Java-Project-2-Banking-System/)' >> temp.md
+          echo '' >> temp.md
+          cat README.md >> temp.md
+          mv temp.md README.md
 
       - name: Commit changes
         run: |
