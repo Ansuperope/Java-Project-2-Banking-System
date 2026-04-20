@@ -31,4 +31,8 @@ jobs:
       # run java
       - name: Running Code
         run: make run
+
+      # make zip
+      - name: Make zip file
+        run: make zip
       

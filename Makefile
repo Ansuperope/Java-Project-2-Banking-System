@@ -31,6 +31,5 @@ save:
 
 # make zip file
 zip:
-	make clean
 	rm -f cs4a-project2.zip
-	zip -r cs4a-project2.zip project/
+	zip -r cs4a-project2.zip project README.md -x "*.class"
