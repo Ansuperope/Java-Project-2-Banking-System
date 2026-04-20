@@ -1,7 +1,18 @@
-//InterestFeature.java
+/**
+ * @file InterestFeature.java
+ * 
+ * @brief interface for accounts that have interest
+ * 
+ * This is an interface class that will be given to accounts that will
+ * be dealing with interest such as the SavingAccount and CreditAccount classes
+ */
 package project.accounts;
 
-//Interface to be used in the SavingAccount and CreditAccount classes
 public interface InterestFeature {
+    /**
+     * @brief will calculate the interest an account will have
+     * 
+     * Will be defined in the derived class
+     */
     double interestAmount();
 }

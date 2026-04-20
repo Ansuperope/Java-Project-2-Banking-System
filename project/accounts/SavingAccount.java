@@ -1,4 +1,7 @@
-//SavingAccount.java
+/**
+ * @file SavingAccount.java
+ * @brief saving account class. Put money to save
+ */
 package project.accounts;
 
 public class SavingAccount extends BankAccount implements InterestFeature {
@@ -45,26 +48,39 @@ public class SavingAccount extends BankAccount implements InterestFeature {
     public void setInterestPercent(double interestPercent) { this.interestPercent = interestPercent; }
     public void setTimePass(int timePass) { this.timePass = timePass; }
 
-    //Checks whether the account qualifies for low activity benefits
+    /**
+     * @brief Checks whether the account qualifies for low activity benefits
+     * @return true if user qualifies, false if user does NOT
+     */
     public boolean qualifyForLowActivity() {
         return transactions <= MAX_LOW_ACTIVITY;
     }
 
-    //Calculates the extra money earned from low activity status
+    /**
+     * @brief Calculates the extra money earned from low activity status
+     * @return amount received from benefit
+     */
     public double lowActivityBenefit() {
         if (qualifyForLowActivity()) {
             return getBalance() * 0.01;
         }
+        // if not qualified
         return 0.0;
     }
 
-    //InterestFeature interface method
+    /**
+     * @brief InterestFeature interface method
+     * @return interest amount  
+     */
     @Override
     public double interestAmount() {
         return getBalance() * interestPercent * timePass;
     }
 
-    //Deposit money
+    /**
+     * @brief Desposit money into account
+     * @param amount to deposit 
+     */
     @Override
     public void deposit(double amount) {
         if (amount > 0) {
@@ -74,7 +90,10 @@ public class SavingAccount extends BankAccount implements InterestFeature {
         }
     }
 
-    //Withdraw money
+    /**
+     * @brief Withdraw money
+     * @param amount to withdraw 
+     */
     @Override
     public void withdraw(double amount) {
         if (amount > 0 && amount <= getBalance()) {

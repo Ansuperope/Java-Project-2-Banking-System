@@ -1,3 +1,7 @@
+/**
+ * @file CreditAccount.java
+ * @brief credit account, account for buying things
+ */
 package project.accounts;
 
 public class CreditAccount extends BankAccount implements InterestFeature {
@@ -35,26 +39,39 @@ public class CreditAccount extends BankAccount implements InterestFeature {
     public void setInterestPercent(double interestPercent) { this.interestPercent = interestPercent; }
     public void setTimePass(int timePass) { this.timePass = timePass; }
 
-    //Determines if a penalty should be applied
+    /**
+     * @brief Determines if a penalty should be applied
+     * @return true if did not pay credit / get a fee, false if paid credit
+     */
     public boolean applyPenalty() {
         return !paidCredit;
     }
 
-    //Calculates penalty fee
+    /**
+     * @brief Calculates penalty fee
+     * @return returns penatlty fee
+     */
     public double calcPenalty() {
         if (applyPenalty()) {
             return getBalance() * 0.02;
         }
+        // No fee
         return 0.0;
     }
 
-    //InterestFeature interface method
+    /**
+     * @brief InterestFeature interface method
+     * @return interest amount  
+     */
     @Override
     public double interestAmount() {
         return getBalance() * interestPercent * timePass;
     }
 
-    //Deposit money to pay back credit
+    /**
+     * @brief Desposit money into account
+     * @param amount to deposit 
+     */
     @Override
     public void deposit(double amount) {
         if (amount > 0 && amount <= getBalance()) {
@@ -63,7 +80,10 @@ public class CreditAccount extends BankAccount implements InterestFeature {
         }
     }
 
-    //Withdraw money to borrow credit
+    /**
+     * @brief Withdraw money
+     * @param amount to withdraw 
+     */
     @Override
     public void withdraw(double amount) {
         if (amount > 0 && getBalance() + amount <= MAX_LIMIT) {

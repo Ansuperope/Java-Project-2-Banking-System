@@ -24,12 +24,18 @@ public class CheckingAccount extends BankAccount {
     //Setter
     public void setNumWithdrawals(int numWithdrawals) { this.numWithdrawals = numWithdrawals; }
 
-    //Checks whether the account reached max withdrawals
+    /**
+     * @Checks whether the account reached max withdrawals
+     * @return true if at or over max amount, false if not at max
+     */
     public boolean atMaxWithdrawal() { 
         return numWithdrawals >= MAX_WITHDRAWALS; 
     }
 
-    //Deposit money
+    /**
+     * @brief Desposit money into account
+     * @param amount to deposit 
+     */
     @Override
     public void deposit(double amount) {
         if (amount > 0) {
@@ -37,7 +43,10 @@ public class CheckingAccount extends BankAccount {
         }
     }
 
-    //Withdraw money
+    /**
+     * @brief Withdraw money
+     * @param amount to withdraw 
+     */
     @Override
     public void withdraw(double amount) {
         if (amount > 0 && !atMaxWithdrawal() && amount <= getBalance()) {

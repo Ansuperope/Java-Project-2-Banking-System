@@ -1,4 +1,9 @@
-//BankAccount.java
+/**
+ * @file BankAccount.java
+ * @breif abstract base class for bank accounts
+ * 
+ * All derived classes will inherit from this
+ */
 package project.accounts;
 
 public abstract class BankAccount {
