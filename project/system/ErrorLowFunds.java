@@ -7,6 +7,6 @@ public class ErrorLowFunds extends Exception {
     }
 
     public ErrorLowFunds(){
-        super("Funds too low to support operation");
+        super("Insufficient funds to support operation");
     }
 }
