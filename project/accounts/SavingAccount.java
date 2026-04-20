@@ -84,7 +84,7 @@ public class SavingAccount extends BankAccount implements InterestFeature {
      * @param amount to deposit 
      */
     @Override
-    public void deposit(double amount) {
+    public void deposit(double amount) throws ErrorInvalidTransactionAmount {
         //Error: Cannot deposit negative amounts
         if (amount <= 0) {
             throw new ErrorInvalidTransactionAmount();

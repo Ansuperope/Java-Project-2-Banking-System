@@ -55,7 +55,7 @@ public class BankingSystem {
      * @param ownerName account to put money in 
      * @param amount amount to deposit
      */
-    public void depositToAccount(String ownerName, double amount) throws ErrorAccountNotFound {
+    public void depositToAccount(String ownerName, double amount) throws ErrorAccountNotFound, ErrorInvalidTransactionAmount {
         BankAccount account = findAccount(ownerName);
         account.deposit(amount);
     }
@@ -65,7 +65,7 @@ public class BankingSystem {
      * @param ownerName account to take money from 
      * @param amount amount to withdraw
      */
-    public void withdrawFromAccount(String ownerName, double amount) throws ErrorAccountNotFound, ErrorLowFunds {
+    public void withdrawFromAccount(String ownerName, double amount) throws ErrorAccountNotFound, ErrorLowFunds, ErrorInvalidTransactionAmount {
         BankAccount account = findAccount(ownerName);
         account.withdraw(amount);
     }
@@ -76,7 +76,7 @@ public class BankingSystem {
      * @param toOwner account to give money to
      * @param amount amount to transfer
      */
-    public boolean transferMoney(String fromOwner, String toOwner, double amount) throws ErrorAccountNotFound, ErrorLowFunds {
+    public boolean transferMoney(String fromOwner, String toOwner, double amount) throws ErrorAccountNotFound, ErrorLowFunds, ErrorInvalidTransactionAmount {
         BankAccount fromAccount = findAccount(fromOwner);
         BankAccount toAccount = findAccount(toOwner);
 

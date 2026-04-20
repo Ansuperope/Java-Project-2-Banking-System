@@ -31,5 +31,6 @@ save:
 
 # make zip file
 zip:
+	make clean
 	rm -f cs4a-project2.zip
-	find . -type f \( -name "*.java" -o -name "*.h" \) | zip -@ cs4a-project2.zip
+	zip -r cs4a-project2.zip project/
