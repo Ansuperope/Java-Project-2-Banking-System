@@ -46,6 +46,7 @@ public class BankingSystem {
                 return account;
             }
         }
+        //Error: Account with ownerName not found
         throw new ErrorAccountNotFound("Account for owner \"" + ownerName + "\" not found.");
     }
 
@@ -66,16 +67,6 @@ public class BankingSystem {
      */
     public void withdrawFromAccount(String ownerName, double amount) throws ErrorAccountNotFound, ErrorLowFunds {
         BankAccount account = findAccount(ownerName);
-
-        if (amount <= 0) {
-            throw new ErrorLowFunds("Withdrawal amount must be greater than 0.");
-        }
-
-        //Apply low-funds rule only to non-credit accounts
-        if (!(account instanceof CreditAccount) && amount > account.getBalance()) {
-            throw new ErrorLowFunds("Not enough funds in account for withdrawal.");
-        }
-
         account.withdraw(amount);
     }
 
@@ -89,12 +80,9 @@ public class BankingSystem {
         BankAccount fromAccount = findAccount(fromOwner);
         BankAccount toAccount = findAccount(toOwner);
 
-        if (amount <= 0) {
-            throw new ErrorLowFunds("Transfer amount must be greater than 0.");
-        }
-
-        if (amount > fromAccount.getBalance()) {
-            throw new ErrorLowFunds("Not enough funds to transfer.");
+        //Error: Cannot transfer to or from CreditAccounts
+        if (fromAccount instanceof CreditAccount || toAccount instanceof CreditAccount) {
+            throw new ErrorInvalidTransactionAmount("Transfers involving credit accounts are not supported.");
         }
 
         fromAccount.withdraw(amount);

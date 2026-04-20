@@ -1,0 +1,42 @@
+/* SAMPLE OUTPUT
+
+
+=== Initial Account Information ===
+Account type: CheckingAccount
+Account owner: Aspen
+Amount in account: $1000.0
+
+Account type: SavingsAccount
+Account owner: Hobs
+Amount in account: $2000.0
+Interest amount: $120.0
+
+Account type: CreditAccount
+Account owner: Christian
+Amount in account: $0.0
+Interest amount: $0.0
+
+=== Performing Transactions ===
+
+=== Updated Account Information ===
+Account type: CheckingAccount
+Account owner: Aspen
+Amount in account: $1050.0
+
+Account type: SavingsAccount
+Account owner: Hobs
+Amount in account: $1900.0
+Interest amount: $114.0
+
+Account type: CreditAccount
+Account owner: Christian
+Amount in account: $300.0
+Interest amount: $15.0
+
+=== Demonstrating Exceptions ===
+Caught ErrorAccountNotFound: Account for owner "Avin" not found.
+Caught ErrorLowFunds: Not enough funds in checking account.
+Caught ErrorInvalidTransactionAmount: Transaction amount must be greater than 0.0
+
+
+*/

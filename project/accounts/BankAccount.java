@@ -5,6 +5,8 @@
  * All derived classes will inherit from this
  */
 package project.accounts;
+import project.system.ErrorInvalidTransactionAmount;
+import project.system.ErrorLowFunds;
 
 public abstract class BankAccount {
     private double balance;        //Current balance of this bank account
@@ -40,6 +42,6 @@ public abstract class BankAccount {
     }
 
     //Abstract methods for derived classes
-    public abstract void deposit(double amount);
-    public abstract void withdraw(double amount);
+    public abstract void deposit(double amount) throws ErrorInvalidTransactionAmount;
+    public abstract void withdraw(double amount) throws ErrorInvalidTransactionAmount, ErrorLowFunds;
 }

@@ -3,6 +3,8 @@
  * @brief saving account class. Put money to save
  */
 package project.accounts;
+import project.system.ErrorInvalidTransactionAmount;
+import project.system.ErrorLowFunds;
 
 public class SavingAccount extends BankAccount implements InterestFeature {
     //The max amount of transactions a user can perform to get the benefit of low activity
@@ -83,11 +85,14 @@ public class SavingAccount extends BankAccount implements InterestFeature {
      */
     @Override
     public void deposit(double amount) {
-        if (amount > 0) {
-            setBalance(getBalance() + amount);
-            transactions++;
-            lowActivity = qualifyForLowActivity();
+        //Error: Cannot deposit negative amounts
+        if (amount <= 0) {
+            throw new ErrorInvalidTransactionAmount();
         }
+
+        setBalance(getBalance() + amount);
+        transactions++;
+        lowActivity = qualifyForLowActivity();
     }
 
     /**
@@ -95,11 +100,19 @@ public class SavingAccount extends BankAccount implements InterestFeature {
      * @param amount to withdraw 
      */
     @Override
-    public void withdraw(double amount) {
-        if (amount > 0 && amount <= getBalance()) {
-            setBalance(getBalance() - amount);
-            transactions++;
-            lowActivity = qualifyForLowActivity();
+    public void withdraw(double amount) throws ErrorInvalidTransactionAmount, ErrorLowFunds {
+        //Error: Cannot withdraw negative amounts
+        if (amount <= 0) {
+            throw new ErrorInvalidTransactionAmount();
         }
+
+        //Error: Cannot withdraw if attempting to withdraw more than the account balance
+        if (amount > getBalance()) {
+            throw new ErrorLowFunds("Not enough funds in savings account.");
+        }
+
+        setBalance(getBalance() - amount);
+        transactions++;
+        lowActivity = qualifyForLowActivity();
     }
 }
