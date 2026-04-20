@@ -1,4 +1,7 @@
-// BankingSystem.java
+/**
+ * @file BankingSystem.java
+ * @brief banking system to manage all accounts
+ */
 package project.system;
 
 import java.util.ArrayList;
@@ -9,8 +12,8 @@ import project.accounts.CreditAccount;
 import project.accounts.InterestFeature;
 
 public class BankingSystem {
-    private List<BankAccount> accounts;
-    private int numberOfAccounts;
+    private List<BankAccount> accounts; // list of all accounts in system
+    private int numberOfAccounts;       // number of accounts in system
 
     //Default constructor
     public BankingSystem() {
@@ -22,7 +25,10 @@ public class BankingSystem {
     public List<BankAccount> getAccounts() { return accounts; }
     public int getNumberOfAccounts() { return numberOfAccounts; }
 
-    //Add an account to system
+    /**
+     * @brief Add an account to system
+     * @param account to add
+     */
     public void addAccount(BankAccount account) {
         if (account != null) {
             accounts.add(account);
@@ -30,8 +36,10 @@ public class BankingSystem {
         }
     }
 
-    //Find an account by owner name
-    //Throws an exception if no account under that name is found
+    /**
+     * @brief Find an account by owner name. Throws an exception if no account under that name is found
+     * @param ownerName account owner name to search
+     */
     public BankAccount findAccount(String ownerName) throws ErrorAccountNotFound {
         for (BankAccount account : accounts) {
             if (account.getAccountOwner().equalsIgnoreCase(ownerName)) {
@@ -41,14 +49,21 @@ public class BankingSystem {
         throw new ErrorAccountNotFound("Account for owner \"" + ownerName + "\" not found.");
     }
 
-    //Deposit into an account
+    /**
+     * @brief Deposit into an account
+     * @param ownerName account to put money in 
+     * @param amount amount to deposit
+     */
     public void depositToAccount(String ownerName, double amount) throws ErrorAccountNotFound {
         BankAccount account = findAccount(ownerName);
         account.deposit(amount);
     }
 
-    //Withdraw from an account
-    //Throws an exception if there are insufficient funds in an account
+    /**
+     * @brief Withdraw from an account. Throws an exception if there are insufficient funds in an account
+     * @param ownerName account to take money from 
+     * @param amount amount to withdraw
+     */
     public void withdrawFromAccount(String ownerName, double amount) throws ErrorAccountNotFound, ErrorLowFunds {
         BankAccount account = findAccount(ownerName);
 
@@ -64,8 +79,12 @@ public class BankingSystem {
         account.withdraw(amount);
     }
 
-    //Transfer money between two accounts
-    //Throws an exception if there are insufficient funds in the source account
+    /**
+     * @brief Transfer money between two accounts. Throws an exception if there are insufficient funds in the source account
+     * @param fromOwner account to take money from
+     * @param toOwner account to give money to
+     * @param amount amount to transfer
+     */
     public boolean transferMoney(String fromOwner, String toOwner, double amount) throws ErrorAccountNotFound, ErrorLowFunds {
         BankAccount fromAccount = findAccount(fromOwner);
         BankAccount toAccount = findAccount(toOwner);
@@ -83,7 +102,9 @@ public class BankingSystem {
         return true;
     }
 
-    //Display all account information in the banking system
+    /**
+     * @brief Display all account information in the banking system
+     */
     public void displayAccountInfo() {
         for (BankAccount account : accounts) {
             System.out.println("Account type: " + account.getClass().getSimpleName());
