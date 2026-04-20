@@ -3,6 +3,9 @@
  * @brief credit account, account for buying things
  */
 package project.accounts;
+import project.system.ErrorInvalidTransactionAmount;
+import project.system.ErrorLowFunds;
+
 
 public class CreditAccount extends BankAccount implements InterestFeature {
     //Maximum credit account limit
@@ -73,11 +76,19 @@ public class CreditAccount extends BankAccount implements InterestFeature {
      * @param amount to deposit 
      */
     @Override
-    public void deposit(double amount) {
-        if (amount > 0 && amount <= getBalance()) {
-            setBalance(getBalance() - amount);
-            paidCredit = (getBalance() == 0);
+    public void deposit(double amount) throws ErrorInvalidTransactionAmount {
+        //Error: Cannot pay back negative amounts
+        if (amount <= 0) {
+            throw new ErrorInvalidTransactionAmount();
         }
+
+        //Error: Cannot pay back more credit than is owed
+        if (amount > getBalance()) {
+            throw new ErrorInvalidTransactionAmount("Payment exceeds outstanding credit balance.");
+        }
+
+        setBalance(getBalance() - amount);
+        paidCredit = (getBalance() == 0);
     }
 
     /**
@@ -85,10 +96,18 @@ public class CreditAccount extends BankAccount implements InterestFeature {
      * @param amount to withdraw 
      */
     @Override
-    public void withdraw(double amount) {
-        if (amount > 0 && getBalance() + amount <= MAX_LIMIT) {
-            setBalance(getBalance() + amount);
-            paidCredit = false;
+    public void withdraw(double amount) throws ErrorInvalidTransactionAmount, ErrorLowFunds {
+        //Error: Cannot borrow negative amounts
+        if (amount <= 0) {
+            throw new ErrorInvalidTransactionAmount();
         }
+
+        //Error: Cannot borrow if the credit limit would be exceeded
+        if (getBalance() + amount > MAX_LIMIT) {
+            throw new ErrorLowFunds("Cannot exceed the credit limit.");
+        }
+
+        setBalance(getBalance() + amount);
+        paidCredit = false;
     }
 }

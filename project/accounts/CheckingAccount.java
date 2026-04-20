@@ -1,5 +1,10 @@
-//CheckingAccount.java
+/**
+ * @file CheckingAccount.java
+ * @brief 
+ */
 package project.accounts;
+import project.system.ErrorInvalidTransactionAmount;
+import project.system.ErrorLowFunds;
 
 public class CheckingAccount extends BankAccount {
     private static final int MAX_WITHDRAWALS = 5;   //Withdrawal limit for a checking account
@@ -37,10 +42,13 @@ public class CheckingAccount extends BankAccount {
      * @param amount to deposit 
      */
     @Override
-    public void deposit(double amount) {
-        if (amount > 0) {
-            setBalance(getBalance() + amount);
+    public void deposit(double amount) throws ErrorInvalidTransactionAmount {
+        //Error: Cannot deposit negative amounts
+        if (amount <= 0) {
+            throw new ErrorInvalidTransactionAmount();
         }
+
+        setBalance(getBalance() + amount);
     }
 
     /**
@@ -48,10 +56,23 @@ public class CheckingAccount extends BankAccount {
      * @param amount to withdraw 
      */
     @Override
-    public void withdraw(double amount) {
-        if (amount > 0 && !atMaxWithdrawal() && amount <= getBalance()) {
-            setBalance(getBalance() - amount);
-            numWithdrawals++;
+    public void withdraw(double amount) throws ErrorInvalidTransactionAmount, ErrorLowFunds {
+        //Error: Cannot withdraw negative amounts
+        if (amount <= 0) {
+            throw new ErrorInvalidTransactionAmount();
         }
+        
+        //Error: Cannot withdraw if at the withdrawal limit
+        if (atMaxWithdrawal()) {
+            throw new ErrorLowFunds("Maximum number of withdrawals reached for checking account.");
+        }
+        
+        //Error: Cannot withdraw if attempting to withdraw more than the account balance
+        if (amount > getBalance()) {
+            throw new ErrorLowFunds("Not enough funds in checking account.");
+        }
+
+        setBalance(getBalance() - amount);
+        numWithdrawals++;
     }
 }
